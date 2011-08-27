@@ -15,8 +15,24 @@ package com.github.mvollebregt.spotify4j;
 // You should have received a copy of the GNU General Public License
 // along with SpotifyDiscoverer.  If not, see <http://www.gnu.org/licenses/>.
 
+import com.github.mvollebregt.musicmetamodel.Artist;
+import com.github.mvollebregt.musicmetamodel.parser.MusicMetaParser;
+import org.xml.sax.SAXException;
+
+import java.io.IOException;
+import java.net.URL;
+
 /**
  * @author Michel Vollebregt
  */
 public class LookupService {
+
+    private final static String BASE_URL = "http://ws.spotify.com/lookup/1/";
+
+    private MusicMetaParser parser = new MusicMetaParser();
+
+    public Artist lookupArtist(String spotifyUri) throws IOException, SAXException {
+        URL url = new URL(BASE_URL + "?uri=" + spotifyUri);
+        return parser.parse(url.openStream());
+    }
 }

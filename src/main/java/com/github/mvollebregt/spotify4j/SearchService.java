@@ -38,12 +38,16 @@ public class SearchService {
         return parser.parse(url.openStream());
     }
 
-    public List<Artist> searchArtist(String query, int page) {
-        return null;
+    public List<Artist> searchArtist(String query) throws IOException, SAXException {
+        URL url = new URL(BASE_URL + "artist?q=" + query);
+        return parser.parse(url.openStream());
     }
 
     public static void main(String[] args) throws Exception {
-        System.out.println(new SearchService().searchAlbum("smells like"));
+        List<Artist> artists = new SearchService().searchArtist("banshees");
+        String id = artists.get(0).getId();
+        Artist artist = new LookupService().lookupArtist(id);
+        System.out.println("First found artist: " + artist);
     }
 
 }
